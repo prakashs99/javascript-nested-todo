@@ -1,0 +1,10 @@
+1. make a to-do list.
+
+at the top, there should be a form and a button, add some todo in the form and click the button, a todo item is added to the list.
+
+in front of each list item, buttons- edit, delete, done/undone.
+
+
+2. make a recursive to-do list.
+
+each todo item can have more todo items inside it.
