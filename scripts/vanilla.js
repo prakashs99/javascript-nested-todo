@@ -1,4 +1,4 @@
-
+(function() {
     var ids = 0;
 
     function TodoNode() {
@@ -172,13 +172,13 @@
             wrapper.appendChild(innerDiv);
         }
         localStorage.removeItem('todo');
-        localStorage.setItem('todo',JSON.stringify(todo));
+        localStorage.setItem('todo', JSON.stringify(todo));
         return wrapper;
     }
     var todo;
     var addTodoButton = document.getElementById('add-todo-button');
     addTodoButton.addEventListener('click', addTodoButtonClicked);
-    if(localStorage.getItem('todo')) {
+    if (localStorage.getItem('todo')) {
         console.log('Hi');
         var saved = JSON.parse(localStorage.getItem('todo'));
         //console.log(saved);
@@ -194,6 +194,7 @@
         console.log('Bye');
         todo = new TodoNode();
     }
+
     function addTodoButtonClicked(e) {
         var addTodoForm = document.getElementById('add-todo-form');
         var todoItem = addTodoForm.value;
@@ -204,9 +205,10 @@
         //console.log(render(todo));
         outerBox.appendChild(render(todo));
     }
+
     function restore(todo) {
-        for(var i=0; i<todo.todos.length; i++) {
-            if(typeof(todo.todos[i]) === 'string') {
+        for (var i = 0; i < todo.todos.length; i++) {
+            if (typeof(todo.todos[i]) === 'string') {
 
             }
             else {
@@ -219,3 +221,4 @@
         }
         return todo;
     }
+})();
