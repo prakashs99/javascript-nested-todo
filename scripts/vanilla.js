@@ -1,4 +1,4 @@
-(function() {
+
     var ids = 0;
 
     function TodoNode() {
@@ -34,7 +34,9 @@
         this.todos.splice(index, 1);
         this.done.splice(index, 1);
         console.log(this.todos);
-        e.target.parentNode.parentNode.setAttribute('hidden', 'true');
+        outerBox.innerHTML = '';
+        outerBox.appendChild(render(todo));
+        //e.target.parentNode.parentNode.setAttribute('hidden', 'true');
     }
 
     TodoNode.prototype.doneButtonClicked = function (e) {
@@ -89,7 +91,7 @@
     var outerBox = document.querySelector('.outer-box');
 
     render = function (x) {
-        //console.log(x.todos);
+        //console.log(x);
         var wrapper = document.createElement('div');
         for (var i = 0; i < x.todos.length; i++) {
             //console.log(typeof(x.todos[i]) !== 'string');
@@ -169,13 +171,29 @@
 
             wrapper.appendChild(innerDiv);
         }
+        localStorage.removeItem('todo');
+        localStorage.setItem('todo',JSON.stringify(todo));
         return wrapper;
     }
-
+    var todo;
     var addTodoButton = document.getElementById('add-todo-button');
-    var todo = new TodoNode();
     addTodoButton.addEventListener('click', addTodoButtonClicked);
-
+    if(localStorage.getItem('todo')) {
+        console.log('Hi');
+        var saved = JSON.parse(localStorage.getItem('todo'));
+        //console.log(saved);
+        var restored = restore(saved);
+        todo = new TodoNode();
+        todo.todos = restored.todos;
+        todo.done = restored.done;
+        console.log(todo);
+        outerBox.innerHTML = '';
+        outerBox.appendChild(render(todo));
+    }
+    else {
+        console.log('Bye');
+        todo = new TodoNode();
+    }
     function addTodoButtonClicked(e) {
         var addTodoForm = document.getElementById('add-todo-form');
         var todoItem = addTodoForm.value;
@@ -186,4 +204,18 @@
         //console.log(render(todo));
         outerBox.appendChild(render(todo));
     }
-})();
+    function restore(todo) {
+        for(var i=0; i<todo.todos.length; i++) {
+            if(typeof(todo.todos[i]) === 'string') {
+
+            }
+            else {
+                var restored = restore(todo.todos[i]);
+                var newNode = new TodoNode();
+                newNode.todos = restored.todos;
+                newNode.done = restored.done;
+                todo.todos[i] = newNode;
+            }
+        }
+        return todo;
+    }
