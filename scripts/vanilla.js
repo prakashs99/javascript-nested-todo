@@ -42,13 +42,13 @@
     TodoNode.prototype.doneButtonClicked = function (e) {
         if (e.target.value === 'Done') {
             this.done[this.todos.indexOf(e.target.parentNode.parentNode.children[0].children[0].value)] = true;
-            e.target.parentNode.parentNode.children[0].children[0].setAttribute('style', 'text-decoration: line-through');
-            e.target.value = 'Undone';
+            outerBox.innerHTML = '';
+            outerBox.appendChild(render(todo));
         }
         else {
             this.done[this.todos.indexOf(e.target.parentNode.parentNode.children[0].children[0].value)] = false;
-            e.target.parentNode.parentNode.children[0].children[0].removeAttribute('style');
-            e.target.value = 'Done';
+            outerBox.innerHTML = '';
+            outerBox.appendChild(render(todo));
         }
     }
 
